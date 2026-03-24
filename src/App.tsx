@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useAuth } from "./hooks/auth";
 import { useTheme } from "./hooks/theme";
+import { ThemeProvider } from "styled-components";
+import { lightTheme } from "./themes/lightTheme";
+import { darkTheme } from "./themes/darkTheme";
 
 export default function App() {
   const { handleAuthenticateUser } = useAuth();
-  const { handleInitTheme } = useTheme();
+  const { handleInitTheme, theme } = useTheme();
 
   useEffect(() => {
     // chamando a funcao para autenticar o user ao carregar a pagina e salvando no localStorage
@@ -14,5 +17,9 @@ export default function App() {
     handleInitTheme();
   }, []);
 
-  return <div>...</div>;
+  return (
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      ...
+    </ThemeProvider>
+  );
 }
