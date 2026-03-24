@@ -23,12 +23,12 @@ export const authSlice = createSlice({
     setAuthToken: (state, action: PayloadAction<AuthState["authToken"]>) => {
       state.authToken = action.payload;
     },
-    setAuthState: (state, action: PayloadAction<AuthState["AuthStatus"]>) => {
+    setAuthStatus: (state, action: PayloadAction<AuthState["AuthStatus"]>) => {
       state.AuthStatus = action.payload;
     },
   },
 });
 
-export const { setUser, setAuthToken, setAuthState } = authSlice.actions;
+export const { setUser, setAuthToken, setAuthStatus } = authSlice.actions;
 
 export default authSlice.reducer;
