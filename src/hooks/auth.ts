@@ -35,21 +35,23 @@ export const useAuth = () => {
   };
 
   // funçao para logar
+  // função para logar
   const handleSignIn = async (email: string, password: string) => {
     const request = await signIn(email, password);
 
     if (request.data) {
       const { data } = request;
-
       authenticate(data.user, data.authToken);
       return true;
     }
 
     dispatch(setAuthStatus("not_authenticated"));
-    return request.error;
+
+    // AQUI: Se request.error não existir, enviamos uma frase padrão
+    return request.error || "E-mail ou senha incorretos.";
   };
 
-  // funçao para deslogar
+  // função para registrar
   const handleSignUp = async (
     name: string,
     email: string,
@@ -59,13 +61,14 @@ export const useAuth = () => {
 
     if (request.data) {
       const { data } = request;
-
       authenticate(data.user, data.authToken);
       return true;
     }
 
     dispatch(setAuthStatus("not_authenticated"));
-    return request.error;
+
+    // AQUI: Se request.error não existir, enviamos uma frase padrão
+    return request.error || "Erro ao criar conta. Verifique os dados.";
   };
 
   // funçao para deslogar
