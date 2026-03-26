@@ -1,4 +1,3 @@
-import { BiBorderAll } from "react-icons/bi";
 import { ButtonElement } from "./styles";
 
 type Props = {
