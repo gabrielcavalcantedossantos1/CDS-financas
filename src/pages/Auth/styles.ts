@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 export const Container = styled.div`
@@ -15,12 +16,13 @@ export const Container = styled.div`
   justify-content: center;
   gap: 20px;
   width: 420px;
+  padding: 20px;
 `;
 
 export const Card = styled.div`
   width: 100%;
   border: 1px solid ${(props) => props.theme.COLORS.inputBorderColor};
-  pad: 30px;
+  padding: 30px;
   box-shadow: black 0px 3px 7px -6px;
   border-radius: 4px;
   display: flex;
@@ -69,5 +71,4 @@ export const CardFooter = styled.div`
 export const Link = styled(LinkRouter)`
   font-size: ${(props) => props.theme.FONT_SIZES.sm};
   color: ${(props) => props.theme.COLORS.primary};
-  
 `;

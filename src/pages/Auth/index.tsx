@@ -105,7 +105,7 @@ export function Auth({ type }: Props) {
             />
 
             <TextInput
-              value={nameInput}
+              value={passwordInput}
               placeholder="Digite sua senha"
               onChange={(e) => setPasswordInput(e.target.value)}
               borderRadius="sm"
