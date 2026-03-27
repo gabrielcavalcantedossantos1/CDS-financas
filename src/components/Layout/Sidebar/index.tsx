@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 //import styles
 import {
@@ -16,6 +16,7 @@ import {
   User,
   UserAvatar,
   UserName,
+  Link,
 } from "./styles";
 import { Button } from "../../Button";
 import {
