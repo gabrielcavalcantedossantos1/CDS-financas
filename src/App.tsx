@@ -5,6 +5,7 @@ import { ThemeProvider } from "styled-components";
 import { lightTheme } from "./themes/lightTheme";
 import { darkTheme } from "./themes/darkTheme";
 import { MainRoutes } from "./routes";
+import { GlobalStyle } from "./styles/global";
 
 export default function App() {
   const { handleAuthenticateUser } = useAuth();
@@ -20,6 +21,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyle />
       <MainRoutes />
     </ThemeProvider>
   );
