@@ -31,38 +31,50 @@ export function Auth({ type }: Props) {
   });
 
   const { handleSignIn, handleSignUp } = useAuth();
-
   const navigate = useNavigate();
 
   async function handleOnClick() {
+    // 1. Resetar o alerta para começar do zero
+    setShowAlert({ type: "error", message: "", show: false });
+
     const [name, email, password] = [nameInput, emailInput, passwordInput];
 
+    // 2. Mantemos APENAS a validação de campos vazios (para não enviar lixo para a API)
     if ((type === "signUp" && !name) || !email || !password) {
       setShowAlert({
         type: "error",
-        message: "Preencha todos os campos",
+        message: "Preencha todos os campos para continuar.",
         show: true,
       });
       return;
     }
 
+    // 3. Chamada direta para a API
+    // Agora não checamos mais letras, números ou tamanho aqui.
+    // O que o usuário digitar, nós enviamos.
     const request = await (type === "signIn"
       ? handleSignIn(email, password)
       : handleSignUp(name, email, password));
 
-    if (request != true) {
+    // 4. Se a API retornar true, deu certo!
+    if (request === true) {
+      navigate("/");
+    } else {
+      // 5. Se der erro, mostramos EXATAMENTE o que a API respondeu
+      // (Ex: "E-mail já cadastrado", "Senha muito curta", etc.)
       setShowAlert({
         type: "error",
-        message: request,
+        message: String(request),
         show: true,
       });
     }
-
-    // redirecionar o usuario ja altenticado
-    navigate("/");
   }
 
+  // Limpa os campos quando o usuário troca entre Login e Cadastro
   useEffect(() => {
+    setNameInput("");
+    setEmailInput("");
+    setPasswordInput("");
     setShowAlert({ type: "error", message: "", show: false });
   }, [type]);
 
@@ -88,7 +100,7 @@ export function Auth({ type }: Props) {
           </CardHeader>
 
           <CardBody>
-            {type == "signUp" && (
+            {type === "signUp" && (
               <TextInput
                 value={nameInput}
                 placeholder="Digite seu nome"
@@ -120,7 +132,7 @@ export function Auth({ type }: Props) {
             {type === "signIn" ? (
               <Link to="/signup">Não possui uma conta? Registre-se</Link>
             ) : (
-              <Link to="/signin">Ja possui uma conta? Entre</Link>
+              <Link to="/signin">Já possui uma conta? Entre</Link>
             )}
           </CardFooter>
         </Card>
