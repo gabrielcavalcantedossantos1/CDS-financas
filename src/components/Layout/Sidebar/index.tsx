@@ -41,6 +41,16 @@ export const Sidebar = () => {
   const auth = useAppSelector((state) => state.auth);
   const { pathname } = useLocation();
 
+  const initials = (name?: string | null) => {
+    const cleaned = (name ?? "").trim();
+    if (!cleaned) return "";
+
+    const parts = cleaned.split(/\s+/).filter(Boolean);
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+
+    return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  };
+
   function handleToggleExpand() {
     setIsEspanded(!isEspanded);
   }
@@ -73,8 +83,8 @@ export const Sidebar = () => {
       <Footer>
         <Link to="/account">
           <User $isActive={pathname === "/account"}>
-            <UserAvatar>{auth.user?.name?.slice(0, 2)}</UserAvatar>
-            <UserName>{auth.user?.name}</UserName>
+            <UserAvatar>{initials(auth.user?.name) || "--"}</UserAvatar>
+            <UserName>{auth.user?.name || "Usuário"}</UserName>
           </User>
         </Link>
       </Footer>
