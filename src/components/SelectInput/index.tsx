@@ -13,9 +13,9 @@ type Props = {
   label?: string;
 };
 
-const referenceId = useId();
-
 export function SelectInput({ onChange, options, value, label }: Props) {
+  const referenceId = useId();
+
   return (
     <Container>
       {label && <Label htmlFor={referenceId}>{label}</Label>}
