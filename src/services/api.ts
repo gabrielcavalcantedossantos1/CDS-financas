@@ -19,9 +19,12 @@ export const api = async <TypeResponse>({
   });
 
   if (withAuth) {
-    instance.defaults.headers.common["Authorization"] = localStorage.getItem(
-      import.meta.env.VITE_LOCAL_STORAGE_AUTH_KEY,
-    );
+    const token = localStorage.getItem(import.meta.env.VITE_LOCAL_STORAGE_AUTH_KEY);
+    if (token) {
+      instance.defaults.headers.common["Authorization"] = token.startsWith("Bearer ")
+        ? token
+        : `Bearer ${token}`;
+    }
   }
 
   try {

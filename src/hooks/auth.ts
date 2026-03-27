@@ -22,8 +22,15 @@ export const useAuth = () => {
 
   // pegando o usuario que esta la no localStorage
   const handleAuthenticateUser = async () => {
-    const request = await getUser();
+    dispatch(setAuthStatus("not_verified"));
     const authToken = handleGetToken();
+
+    if (!authToken) {
+      dispatch(setAuthStatus("not_authenticated"));
+      return;
+    }
+
+    const request = await getUser();
 
     if (!request.data) {
       dispatch(setAuthStatus("not_authenticated"));
@@ -31,7 +38,7 @@ export const useAuth = () => {
     }
 
     const { data } = request;
-    authenticate(data.user, authToken as string);
+    authenticate(data.user, authToken);
   };
 
   // funçao para logar
