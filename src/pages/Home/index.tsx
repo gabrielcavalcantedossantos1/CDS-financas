@@ -51,7 +51,7 @@ export function Home() {
 
   function getYears() {
     const years = [];
-    for (let i = 2026; i <= new Date().getFullYear(); i++) {
+    for (let i = 2020; i <= new Date().getFullYear(); i++) {
       years.push({ label: i.toString(), value: i.toString() });
     }
 
