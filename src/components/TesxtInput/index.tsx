@@ -7,6 +7,8 @@ type Props = {
   label?: string;
   placeholder?: string;
   borderRadius?: "sm" | "md";
+  type?: React.HTMLInputTypeAttribute;
+  autoComplete?: string;
 };
 
 export function TextInput({
@@ -15,6 +17,8 @@ export function TextInput({
   label,
   placeholder,
   borderRadius,
+  type = "text",
+  autoComplete,
 }: Props) {
   const referenceId = useId();
 
@@ -24,6 +28,8 @@ export function TextInput({
 
       <Input
         id={referenceId}
+        type={type}
+        autoComplete={autoComplete}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

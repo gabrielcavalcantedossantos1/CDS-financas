@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
 import {
@@ -37,13 +37,25 @@ export function Auth({ type }: Props) {
     // 1. Resetar o alerta para começar do zero
     setShowAlert({ type: "error", message: "", show: false });
 
-    const [name, email, password] = [nameInput, emailInput, passwordInput];
+    const name = nameInput.trim();
+    const email = emailInput.trim();
+    const password = passwordInput;
 
     // 2. Mantemos APENAS a validação de campos vazios (para não enviar lixo para a API)
     if ((type === "signUp" && !name) || !email || !password) {
       setShowAlert({
         type: "error",
         message: "Preencha todos os campos para continuar.",
+        show: true,
+      });
+      return;
+    }
+
+    // Validação mínima para login/cadastro (evita requisições inválidas)
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setShowAlert({
+        type: "error",
+        message: "Digite um e-mail válido para continuar.",
         show: true,
       });
       return;
@@ -69,14 +81,6 @@ export function Auth({ type }: Props) {
       });
     }
   }
-
-  // Limpa os campos quando o usuário troca entre Login e Cadastro
-  useEffect(() => {
-    setNameInput("");
-    setEmailInput("");
-    setPasswordInput("");
-    setShowAlert({ type: "error", message: "", show: false });
-  }, [type]);
 
   return (
     <Wrapper>
@@ -114,6 +118,8 @@ export function Auth({ type }: Props) {
               placeholder="Digite seu email"
               onChange={(e) => setEmailInput(e.target.value)}
               borderRadius="sm"
+              type="email"
+              autoComplete="email"
             />
 
             <TextInput
@@ -121,6 +127,8 @@ export function Auth({ type }: Props) {
               placeholder="Digite sua senha"
               onChange={(e) => setPasswordInput(e.target.value)}
               borderRadius="sm"
+              type="password"
+              autoComplete={type === "signIn" ? "current-password" : "new-password"}
             />
           </CardBody>
 
