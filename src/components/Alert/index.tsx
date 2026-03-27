@@ -21,11 +21,15 @@ export function Alert({
 }: Props) {
   useEffect(() => {
     if (show && autoHideDuration) {
-      setTimeout(() => {
-        (setShow(false), autoHideDuration);
-      });
+      const timeoutId = window.setTimeout(() => {
+        setShow(false);
+      }, autoHideDuration);
+
+      // Evita atualizar estado após desmontar/navegar
+      return () => window.clearTimeout(timeoutId);
     }
-  }, [show]);
+    return;
+  }, [show, autoHideDuration, setShow]);
 
   return (
     <Container $show={show} $type={type}>
