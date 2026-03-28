@@ -100,7 +100,7 @@ export function NewTransaction() {
 
             <TextInput
               label="Valor"
-              placeholder="Ex: R$1.000,00 ou -R$1.000,00"
+              placeholder="Ex: 1.000,00 ou 1.000,00"
               value={amountValue}
               onChange={(e) => setAmountValue(e.target.value)}
               borderRadius="sm"
