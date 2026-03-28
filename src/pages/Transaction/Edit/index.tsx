@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import type { TransactionStatus } from "../../../@types/Transaction";
 import { useTheme } from "styled-components";
-import {
-  getTransaction,
-  updateTransaction,
-} from "../../../services/requests";
+import { getTransaction, updateTransaction } from "../../../services/requests";
 import {
   Body,
   Container,
@@ -82,6 +79,7 @@ export function EditNewTransaction() {
 
     if (request.error) {
       navigate("/transacoes/nova");
+      setLoadingRequest(false);
       return;
     }
     if (transaction) {
@@ -93,9 +91,13 @@ export function EditNewTransaction() {
 
       setLoadingRequest(false);
     }
+
+    setLoadingRequest(false);
   }
 
   useEffect(() => {
+    if (!id) navigate("/transacoes/nova");
+
     handleGetTransaction();
   }, []);
 
