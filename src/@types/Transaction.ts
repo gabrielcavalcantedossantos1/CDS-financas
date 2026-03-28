@@ -31,12 +31,8 @@ export type ApiGetTransaction = {
   transaction: Transaction;
 };
 
-export type ApiGetDashboard = {
-  transactions: TransactionDashboard[];
-  /** Opcional: o backend pode enviar totais globais; o front prefere calcular por mês/ano a partir de `transactions`. */
-  pending_transactions?: number;
-  completed_transactions?: number;
-};
+/** GET dashboard: o Xano devolve um array de transações direto no corpo da resposta. */
+export type ApiGetDashboard = TransactionDashboard[];
 
 export type ApiNewTransaction = {
   transaction: Transaction;

@@ -130,14 +130,27 @@ export const getDashboard = async (mounth: string, year: string) => {
   let pending_transactions = 0;
   let completed_transactions = 0;
 
-  const transactions = response.data?.transactions ?? [];
-  transactions.forEach((transaction) => {
-    const date = formatDate(transaction.created_at).split("/");
+  const raw = response.data;
+  const transactions: ApiGetDashboard = Array.isArray(raw) ? raw : [];
 
-    if (date[1] === mounth && date[2] === year) {
-      balance += transaction.amount;
-      if (transaction.status === "pending") pending_transactions += 1;
-      else if (transaction.status === "completed") completed_transactions += 1;
+  transactions.forEach((transaction) => {
+    // Pegamos a data e formatamos para comparar com o filtro do Dashboard
+    const fullDate = formatDate(transaction.created_at);
+    const dateParts = fullDate.split("/");
+
+    const itemMonth = dateParts[1]; // Ex: "03"
+    const itemYear = dateParts[2];  // Ex: "2026"
+
+    if (itemMonth === mounth && itemYear === year) {
+      // Soma o valor ao saldo total
+      balance += Number(transaction.amount) || 0;
+      
+      // Contabiliza por status conforme o que você preencheu no Xano
+      if (transaction.status === "pending") {
+        pending_transactions += 1;
+      } else if (transaction.status === "completed") {
+        completed_transactions += 1;
+      }
     }
   });
 
