@@ -10,6 +10,7 @@ import {
   HeaderInfo,
   HeaderSubTitle,
   HeaderTitle,
+  Loading,
 } from "./styles";
 import { Alert } from "../../../components/Alert";
 import { ScaleLoader } from "react-spinners";
@@ -83,9 +84,14 @@ export function NewTransaction() {
         type={showAlert.type}
         show={showAlert.show}
         setShow={(show) => setShowAlert({ ...showAlert, show })}
+        title={showAlert.message}
       />
 
-      {loadingRequest && <ScaleLoader color={theme.COLORS.primary} />}
+      {loadingRequest && (
+        <Loading>
+          <ScaleLoader color={theme.COLORS.primary} />
+        </Loading>
+      )}
 
       {!loadingRequest && (
         <>
