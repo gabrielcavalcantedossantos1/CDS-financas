@@ -25,6 +25,8 @@ import {
   MdOutlineListAlt,
 } from "react-icons/md";
 
+import Logo from "../../../../public/img/logo.png";
+
 const menuItems = [
   { label: "Dashboard", url: "/", icon: <MdOutlineDashboard /> },
   {
@@ -60,7 +62,7 @@ export const Sidebar = () => {
       <Header>
         {isEspanded && (
           <Link to="/">
-            <HeaderLogo src="/logo.png" alt="Logo Image" />
+            <HeaderLogo src={Logo} alt="Logo Image" />
           </Link>
         )}
 
