@@ -3,7 +3,6 @@ import type { TransactionStatus } from "../../../@types/Transaction";
 import { useTheme } from "styled-components";
 import {
   getTransaction,
-  newTransaction,
   updateTransaction,
 } from "../../../services/requests";
 import {
