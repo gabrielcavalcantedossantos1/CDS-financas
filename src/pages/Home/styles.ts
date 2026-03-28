@@ -9,7 +9,9 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  gap: 24px;
   padding: 40px 60px 40px 50px;
   border-bottom: 1px solid ${(props) => props.theme.COLORS.borderColor};
 `;
@@ -17,6 +19,8 @@ export const Header = styled.div`
 export const HeaderInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
+  min-width: 0;
 `;
 
 export const HeaderTitle = styled.span`
@@ -33,6 +37,7 @@ export const HeaderSubTitle = styled.span`
 export const HeaderFilter = styled.div`
   display: flex;
   gap: 14px;
+  flex-shrink: 0;
   width: 320px;
 `;
 

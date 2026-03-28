@@ -89,21 +89,21 @@ export function Home() {
           <HeaderSubTitle>
             Acompanhe seu saldo e filtre por mês e ano com facilidade
           </HeaderSubTitle>
-
-          <HeaderFilter>
-            <SelectInput
-              value={monthSelected}
-              options={getMonths()}
-              onChange={handleMonthSelected}
-            />
-
-            <SelectInput
-              value={yearSelected}
-              options={getYears()}
-              onChange={handleYearSelected}
-            />
-          </HeaderFilter>
         </HeaderInfo>
+
+        <HeaderFilter>
+          <SelectInput
+            value={monthSelected}
+            options={getMonths()}
+            onChange={handleMonthSelected}
+          />
+
+          <SelectInput
+            value={yearSelected}
+            options={getYears()}
+            onChange={handleYearSelected}
+          />
+        </HeaderFilter>
       </Header>
 
       {LoadingRequest && (
