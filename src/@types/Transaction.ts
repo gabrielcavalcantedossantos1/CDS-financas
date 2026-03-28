@@ -9,9 +9,9 @@ export type Transaction = {
   user_id: number;
 };
 
-export type TransactionDashboard = Omit<
+export type TransactionDashboard = Pick<
   Transaction,
-  "id" | "title" | "status" | "user_id"
+  "amount" | "created_at" | "status"
 >;
 
 export type ApiGetTransactions = {
@@ -33,8 +33,9 @@ export type ApiGetTransaction = {
 
 export type ApiGetDashboard = {
   transactions: TransactionDashboard[];
-  pending_transactions: number;
-  completed_transactions: number;
+  /** Opcional: o backend pode enviar totais globais; o front prefere calcular por mês/ano a partir de `transactions`. */
+  pending_transactions?: number;
+  completed_transactions?: number;
 };
 
 export type ApiNewTransaction = {
