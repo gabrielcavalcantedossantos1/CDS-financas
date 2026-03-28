@@ -127,16 +127,19 @@ export const getDashboard = async (mounth: string, year: string) => {
   });
 
   let balance = 0;
-  let pending_transactions = response.data?.pending_transactions ?? 0;
-  let completed_transactions = response.data?.completed_transactions ?? 0;
+  let pending_transactions = 0;
+  let completed_transactions = 0;
 
-  if (response.data) {
-    response.data.transactions.map((transaction) => {
-      const date = formatDate(transaction.created_at).split("/"); // sem split: 24/03/2026 ---- com split: [24, 03, 2026]
+  const transactions = response.data?.transactions ?? [];
+  transactions.forEach((transaction) => {
+    const date = formatDate(transaction.created_at).split("/");
 
-      if (date[1] === mounth && date[2] === year) balance += transaction.amount;
-    });
-  }
+    if (date[1] === mounth && date[2] === year) {
+      balance += transaction.amount;
+      if (transaction.status === "pending") pending_transactions += 1;
+      else if (transaction.status === "completed") completed_transactions += 1;
+    }
+  });
 
   return {
     balance,
