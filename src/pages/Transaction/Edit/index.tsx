@@ -1,5 +1,16 @@
+type TransactionProps = {
+  amount: number;
+  createdAt: string;
+  id: number;
+  status: TransactionStatus;
+  title: string;
+};
+
 import { useEffect, useState } from "react";
-import type { TransactionStatus } from "../../../@types/Transaction";
+import type {
+  Transaction,
+  TransactionStatus,
+} from "../../../@types/Transaction";
 import { useTheme } from "styled-components";
 import { getTransaction, updateTransaction } from "../../../services/requests";
 import {
@@ -35,6 +46,7 @@ export function EditNewTransaction() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // 🔥 FUNÇÃO PARA ATUALIZAR
   async function handleOnclick() {
     const [title, amount, state] = [titleValue, amountValue, stateValue];
 
@@ -47,59 +59,60 @@ export function EditNewTransaction() {
       return;
     }
 
-    const amountUSD = Number(amount.replace(/\./g, "").replace(",", "."));
-
+    const amountNumber = Number(amount.replace(/\./g, "").replace(",", "."));
     setLoadingRequest(true);
-    const request = await updateTransaction(
-      Number(id),
-      title,
-      amountUSD,
-      state,
-    );
-    setLoadingRequest(false);
 
-    if (request.error) {
-      setShowAlert({
-        type: "error",
-        message: request.error,
-        show: true,
-      });
-    } else {
-      setShowAlert({
-        type: "success",
-        message: "Transação editada com sucesso",
-        show: true,
-      });
+    try {
+      const request = await updateTransaction(
+        Number(id),
+        title,
+        amountNumber,
+        state,
+      );
+
+      if (request.error) {
+        setShowAlert({ type: "error", message: request.error, show: true });
+      } else {
+        setShowAlert({
+          type: "success",
+          message: "Transação editada com sucesso",
+          show: true,
+        });
+      }
+    } finally {
+      setLoadingRequest(false);
     }
   }
 
+  // 🔥 FUNÇÃO PARA BUSCAR A TRANSAÇÃO
   async function handleGetTransaction() {
-    const request = await getTransaction(Number(id));
-    const transaction = request.data?.transaction;
+    setLoadingRequest(true);
+    try {
+      const request = await getTransaction(Number(id));
 
-    if (request.error) {
-      navigate("/transacoes/nova");
-      setLoadingRequest(false);
-      return;
-    }
-    if (transaction) {
-      const amountBRL = formatValue(transaction.amount);
+      // Força a tipagem para Transaction
+      const transaction = request.data as unknown as Transaction;
+
+      if (!transaction || request.error) {
+        navigate("/transacoes/nova");
+        return;
+      }
 
       setTitleValue(transaction.title);
-      setAmountValue(amountBRL);
+      setAmountValue(formatValue(transaction.amount));
       setStateValue(transaction.status);
-
+    } finally {
       setLoadingRequest(false);
     }
-
-    setLoadingRequest(false);
   }
 
   useEffect(() => {
-    if (!id) navigate("/transacoes/nova");
-
+    if (!id) {
+      navigate("/transacoes/nova");
+      return;
+    }
     handleGetTransaction();
-  }, []);
+  }, [id, navigate]);
 
   return (
     <Container>
@@ -107,8 +120,8 @@ export function EditNewTransaction() {
         <HeaderInfo>
           <HeaderTitle>Editar transação</HeaderTitle>
           <HeaderSubTitle>
-            Edite uma nova transação, preencha todos os campos abaixo e clique
-            em salvar.
+            Edite a transação, preencha todos os campos abaixo e clique em
+            salvar.
           </HeaderSubTitle>
         </HeaderInfo>
       </Header>
@@ -120,13 +133,11 @@ export function EditNewTransaction() {
         title={showAlert.message}
       />
 
-      {loadingRequest && (
+      {loadingRequest ? (
         <Loading>
           <ScaleLoader color={theme.COLORS.primary} />
         </Loading>
-      )}
-
-      {!loadingRequest && (
+      ) : (
         <>
           <Body>
             <TextInput
@@ -139,7 +150,7 @@ export function EditNewTransaction() {
 
             <TextInput
               label="Valor"
-              placeholder="Ex: 1.000,00 ou 1.000,00"
+              placeholder="Ex: 1.000,00"
               value={amountValue}
               onChange={(e) => setAmountValue(e.target.value)}
               borderRadius="sm"
