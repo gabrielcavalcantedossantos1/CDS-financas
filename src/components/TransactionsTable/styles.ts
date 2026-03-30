@@ -1,3 +1,4 @@
+import { MdOutlineDeleteForever, MdOutlineEdit } from "react-icons/md";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -48,4 +49,43 @@ export const TableCell = styled.td`
     border-right: 1px solid
       ${(props) => props.theme.COLORS.tableHeaderBorderColor};
   }
+`;
+
+export const Actions = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const ActionBtn = styled.button<{ $variant: string }>`
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  background-color: ${(props) =>
+    props.$variant === "warning"
+      ? props.theme.COLORS.warning
+      : props.theme.COLORS.danger};
+  color: ${(props) => props.theme.COLORS.white};
+  transition: all 0.3s;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    border-color: ${(props) =>
+      props.$variant === "warning"
+        ? props.theme.COLORS.warning
+        : props.theme.COLORS.danger};
+    background-color: transparent;
+    color: ${(props) =>
+      props.$variant === "warning"
+        ? props.theme.COLORS.warning
+        : props.theme.COLORS.danger};
+  }
+`;
+
+export const EditIcon = styled(MdOutlineEdit)`
+  font-size: ${(props) => props.theme.FONT_SIZES.lg};
+`;
+
+export const DeleteIcon = styled(MdOutlineDeleteForever)`
+  font-size: ${(props) => props.theme.FONT_SIZES.lg};
 `;
