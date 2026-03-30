@@ -19,10 +19,40 @@ import { SelectInput } from "../../../components/SelectInput";
 import { Button } from "../../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
-/** Converte string para número (aceita negativo) */
+/** Converte string BRL para número, aceitando negativo */
 function parseBRL(value: string) {
   if (!value) return 0;
   return Number(value.replace(/\./g, "").replace(",", "."));
+}
+
+/** Formata valor BRL enquanto digita */
+function formatBRLInput(value: string) {
+  if (!value) return "";
+
+  // Remove tudo que não seja número
+  let numeric = value.replace(/[^0-9\-]/g, "");
+
+  // Detecta negativo
+  let isNegative = false;
+  if (numeric.startsWith("-")) {
+    isNegative = true;
+    numeric = numeric.substring(1);
+  }
+
+  if (!numeric) return isNegative ? "-" : "";
+
+  // Converte para centavos (2 últimos dígitos)
+  let number = parseInt(numeric, 10);
+  let cents = number % 100;
+  let reais = Math.floor(number / 100);
+
+  // Formata reais com separador de milhares
+  let reaisFormatted = reais.toLocaleString("pt-BR");
+
+  let formatted = `${reaisFormatted},${cents.toString().padStart(2, "0")}`;
+  if (isNegative) formatted = `-${formatted}`;
+
+  return formatted;
 }
 
 export function EditNewTransaction() {
@@ -84,7 +114,7 @@ export function EditNewTransaction() {
       }
 
       setTitleValue(transaction.title);
-      setAmountValue(transaction.amount.toString()); // sem formatação
+      setAmountValue(formatBRLInput(transaction.amount.toString())); // já formatado
       setStateValue(transaction.status);
     } finally {
       setLoadingRequest(false);
@@ -134,9 +164,13 @@ export function EditNewTransaction() {
 
             <TextInput
               label="Valor"
-              placeholder="Ex: 1000.50"
+              placeholder="Ex: 1.000,50"
               value={amountValue}
-              onChange={(e) => setAmountValue(e.target.value)} // só texto, sem formatação
+              onChange={(e) => {
+                // Formata enquanto digita
+                const numericValue = e.target.value.replace(/[^0-9\-]/g, "");
+                setAmountValue(formatBRLInput(numericValue));
+              }}
               borderRadius="sm"
               type="text"
             />
