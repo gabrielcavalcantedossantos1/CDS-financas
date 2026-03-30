@@ -42,7 +42,7 @@ export function TransactionsTable({ data, onEdit, onDelete }: Props) {
         <TableBody>
           {data.map((transaction) => (
             <TableRow key={transaction.id}>
-              <TableCell>${transaction.id}</TableCell>
+              <TableCell>#{transaction.id}</TableCell>
               <TableCell>{transaction.title}</TableCell>
               <TableCell>{formatDate(transaction.created_at)}</TableCell>
               <TableCell>
