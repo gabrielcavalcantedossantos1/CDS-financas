@@ -4,6 +4,7 @@ import { Layout } from "../components/Layout/indez";
 import { Home } from "../pages/Home";
 import { NewTransaction } from "../pages/Transaction/New";
 import { EditNewTransaction } from "../pages/Transaction/Edit";
+import { Transactions } from "../pages/Transaction/Transactions";
 
 export const MainRoutes = () => {
   return (
@@ -13,6 +14,7 @@ export const MainRoutes = () => {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/transacoes">
+          <Route index element={<Transactions />} />
           <Route path="nova" element={<NewTransaction />} />
           <Route path=":id/editar" element={<EditNewTransaction />} />
         </Route>
