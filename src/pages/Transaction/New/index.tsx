@@ -18,10 +18,42 @@ import { TextInput } from "../../../components/TesxtInput";
 import { SelectInput } from "../../../components/SelectInput";
 import { Button } from "../../../components/Button";
 
+/** Converte string BRL para número */
+function parseBRL(value: string) {
+  if (!value) return 0;
+  return Number(value.replace(/\./g, "").replace(",", "."));
+}
+
+/** Formata valor BRL enquanto digita */
+function formatBRLInput(value: string) {
+  if (!value) return "";
+
+  let numeric = value.replace(/[^0-9\-]/g, "");
+
+  let isNegative = false;
+  if (numeric.startsWith("-")) {
+    isNegative = true;
+    numeric = numeric.substring(1);
+  }
+
+  if (!numeric) return isNegative ? "-" : "";
+
+  let number = parseInt(numeric, 10);
+  let cents = number % 100;
+  let reais = Math.floor(number / 100);
+
+  let reaisFormatted = reais.toLocaleString("pt-BR");
+
+  let formatted = `${reaisFormatted},${cents.toString().padStart(2, "0")}`;
+  if (isNegative) formatted = `-${formatted}`;
+
+  return formatted;
+}
+
 export function NewTransaction() {
   const [loadingRequest, setLoadingRequest] = useState(false);
   const [titleValue, setTitleValue] = useState("");
-  const [amountValue, setAmountValue] = useState("");
+  const [amountValue, setAmountValue] = useState(""); // input text
   const [stateValue, setStateValue] = useState<TransactionStatus>("pending");
   const [showAlert, setShowAlert] = useState({
     type: "error",
@@ -32,9 +64,7 @@ export function NewTransaction() {
   const theme = useTheme();
 
   async function handleOnclick() {
-    const [title, amount, state] = [titleValue, amountValue, stateValue];
-
-    if (!title || !amount || !state) {
+    if (!titleValue || !amountValue || !stateValue) {
       setShowAlert({
         type: "error",
         message: "Preencha todos os campos para continuar",
@@ -43,10 +73,10 @@ export function NewTransaction() {
       return;
     }
 
-    const amountUSD = Number(amount.replace(/\./g, "").replace(",", "."));
+    const amountNumber = parseBRL(amountValue);
 
     setLoadingRequest(true);
-    const request = await newTransaction(title, amountUSD, state);
+    const request = await newTransaction(titleValue, amountNumber, stateValue);
     setLoadingRequest(false);
 
     if (request.error) {
@@ -74,8 +104,7 @@ export function NewTransaction() {
         <HeaderInfo>
           <HeaderTitle>Nova transação</HeaderTitle>
           <HeaderSubTitle>
-            Crie uma nova transação, preencha todos os campos abaixo e clique em
-            salvar.
+            Crie uma nova transação, preencha todos os campos abaixo e clique em salvar.
           </HeaderSubTitle>
         </HeaderInfo>
       </Header>
@@ -106,10 +135,14 @@ export function NewTransaction() {
 
             <TextInput
               label="Valor"
-              placeholder="Ex: 1.000,00 ou 1.000,00"
+              placeholder="Ex: 1.000,00"
               value={amountValue}
-              onChange={(e) => setAmountValue(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9\-]/g, "");
+                setAmountValue(formatBRLInput(numericValue));
+              }}
               borderRadius="sm"
+              type="text"
             />
 
             <SelectInput
@@ -119,9 +152,7 @@ export function NewTransaction() {
                 { label: "Concluído", value: "completed" },
               ]}
               value={stateValue}
-              onChange={(e) =>
-                setStateValue(e.target.value as TransactionStatus)
-              }
+              onChange={(e) => setStateValue(e.target.value as TransactionStatus)}
             />
           </Body>
 
