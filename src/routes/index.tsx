@@ -6,6 +6,7 @@ import { NewTransaction } from "../pages/Transaction/New";
 import { EditNewTransaction } from "../pages/Transaction/Edit";
 import { Transactions } from "../pages/Transaction/Transactions";
 import { Accounts } from "../pages/Accounst";
+import { NotFound } from "../pages/NotFound";
 
 export const MainRoutes = () => {
   return (
@@ -22,6 +23,8 @@ export const MainRoutes = () => {
           <Route path=":id/editar" element={<EditNewTransaction />} />
         </Route>
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
