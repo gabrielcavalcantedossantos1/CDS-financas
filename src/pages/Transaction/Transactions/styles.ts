@@ -55,8 +55,12 @@ export const HeaderSearchICon = styled(MdSearch)`
 `;
 
 export const Body = styled.div`
-  padding: 30px 50px 60px 50px;
+  padding: 30px 50px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
 `;
 
 export const Empty = styled.div`
@@ -81,6 +85,12 @@ export const EmptyIcon = styled(TbTableOff)`
 export const Pagination = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: ${(props) => props.theme.COLORS.background};
 `;
 
 export const PaginationItem = styled.button<{
@@ -91,8 +101,11 @@ export const PaginationItem = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 38px;
-  width: 50px;
+  height: 42px;
+  min-width: 42px;
+  padding: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
   background-color: ${(props) =>
     props.$active ? props.theme.COLORS.primary : "transparent"};
   color: ${(props) =>
@@ -105,14 +118,21 @@ export const PaginationItem = styled.button<{
         ? props.theme.COLORS.primary
         : props.theme.COLORS.borderColor};
   border-radius: ${(props) =>
-    props.$isLeft ? "5px 0 0 5px" : props.$isRight ? "0 5px 5px 0" : "0"};
+    props.$isLeft ? "8px 0 0 8px" : props.$isRight ? "0 8px 8px 0" : "8px"};
   outline: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${(props) => props.theme.COLORS.buttonHover};
-    color: ${(props) => props.theme.COLORS.buttonColor};
-    border-color: ${(props) => props.theme.COLORS.buttonHover};
+    background-color: ${(props) => props.theme.COLORS.primary};
+    color: #fff;
+    border-color: ${(props) => props.theme.COLORS.primary};
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
   }
 `;

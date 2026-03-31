@@ -50,22 +50,33 @@ export function Transactions() {
 
   async function handleGetTransactions() {
     setLoadingRequest(true);
-    const request = await getTransactions(currentPage);
-    setLoadingRequest(false);
 
-    if (request.data) {
-      if (!searchValue) setTransactions(request.data.transactions.items);
+    try {
+      const request = await getTransactions(currentPage);
 
-      setTransactions(request.data.transactions.items);
-      setTotalPages(request.data.transactions.pageTotal);
-    }
+      if (request?.data && Array.isArray(request.data)) {
+        setTransactions(request.data);
+        setTransactionsFiltered(request.data);
+        setTotalPages(1);
+      } else {
+        console.error("Formato inesperado da API:", request.data);
+      }
 
-    if (request.error) {
+      if (request?.error) {
+        setShowAlert({
+          type: "error",
+          message: request.error,
+          show: true,
+        });
+      }
+    } catch (error) {
       setShowAlert({
         type: "error",
-        message: request.error,
+        message: "Erro ao buscar transações",
         show: true,
       });
+    } finally {
+      setLoadingRequest(false);
     }
   }
 
@@ -96,7 +107,8 @@ export function Transactions() {
   async function handleDeleteTransaction(id: number) {
     if (window.confirm("Tem certeza que deseja excluir esta transação?")) {
       setLoadingRequest(true);
-      await Promise.all([deleteTransaction(id), handleGetTransactions()]);
+      await deleteTransaction(id);
+      await handleGetTransactions();
       setLoadingRequest(false);
 
       setShowAlert({
@@ -109,7 +121,7 @@ export function Transactions() {
 
   useEffect(() => {
     handleGetTransactions();
-  }, []);
+  }, [currentPage]);
 
   return (
     <Container>
