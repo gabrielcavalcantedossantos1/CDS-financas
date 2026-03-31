@@ -5,13 +5,16 @@ import { Home } from "../pages/Home";
 import { NewTransaction } from "../pages/Transaction/New";
 import { EditNewTransaction } from "../pages/Transaction/Edit";
 import { Transactions } from "../pages/Transaction/Transactions";
+import { Accounts } from "../pages/Accounst";
 
 export const MainRoutes = () => {
   return (
     <Routes>
       <Route path="/signin" element={<Auth type="signIn" />} />
       <Route path="/signup" element={<Auth type="signUp" />} />
+
       <Route element={<Layout />}>
+        <Route path="account" element={<Accounts />} />
         <Route index element={<Home />} />
         <Route path="/transacoes">
           <Route index element={<Transactions />} />
