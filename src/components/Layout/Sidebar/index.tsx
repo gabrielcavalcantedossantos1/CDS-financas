@@ -57,11 +57,17 @@ export const Sidebar = () => {
     setIsEspanded(!isEspanded);
   }
 
+  function handleNavigationClick() {
+    if (window.innerWidth <= 768) {
+      setIsEspanded(false);
+    }
+  }
+
   return (
     <Container $expanded={isEspanded}>
       <Header>
         {isEspanded && (
-          <Link to="/">
+          <Link to="/" onClick={handleNavigationClick}>
             <HeaderLogo src={Logo} alt="Logo Image" />
           </Link>
         )}
@@ -71,9 +77,9 @@ export const Sidebar = () => {
         </Button>
       </Header>
 
-      <Navigation>
+      <Navigation $expanded={isEspanded}>
         {menuItems.map((item) => (
-          <Link to={item.url} key={item.url}>
+          <Link to={item.url} key={item.url} onClick={handleNavigationClick}>
             <NavigateItem $active={pathname === item.url}>
               <NavigateItemIcon>{item.icon}</NavigateItemIcon>
               <NavigateItemLabel>{item.label}</NavigateItemLabel>
@@ -82,8 +88,8 @@ export const Sidebar = () => {
         ))}
       </Navigation>
 
-      <Footer>
-        <Link to="/account">
+      <Footer $expanded={isEspanded}>
+        <Link to="/account" onClick={handleNavigationClick}>
           <User $isActive={pathname === "/account"}>
             <UserAvatar>{initials(auth.user?.name) || "--"}</UserAvatar>
             <UserName>{auth.user?.name || "Usuário"}</UserName>

@@ -9,6 +9,22 @@ export const Container = styled.div<{ $expanded: boolean }>`
   width: ${(props) => (props.$expanded ? "300px" : "79px")};
   transition: all 0.6s;
   border-radius: 1px solid ${(props) => props.theme.COLORS.sidebarBorderColor};
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: ${(props) => (props.$expanded ? "100vh" : "70px")};
+    width: ${(props) => (props.$expanded ? "100%" : "79px")};
+    z-index: 999;
+    border-radius: 0;
+    border-right: none;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+
+    & + * {
+      margin-top: 70px;
+    }
+  }
 `;
 
 export const Link = styled(LinkRouter)`
@@ -41,12 +57,16 @@ export const HeaderICon = styled(GiHamburgerMenu)`
   color: ${(props) => props.theme.COLORS.sidebarColor};
 `;
 
-export const Navigation = styled.div`
+export const Navigation = styled.div<{ $expanded: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 10px;
   flex: 1;
+
+  @media (max-width: 768px) {
+    display: ${(props) => (props.$expanded ? "flex" : "none")};
+  }
 `;
 
 export const NavigateItem = styled.div<{ $active: boolean }>`
@@ -78,9 +98,13 @@ export const NavigateItemLabel = styled.span`
   white-space: nowrap;
 `;
 
-export const Footer = styled.div`
+export const Footer = styled.div<{ $expanded: boolean }>`
   border-top: 1px solid ${(props) => props.theme.COLORS.sidebarBorderColor};
   margin: 10px;
+
+  @media (max-width: 768px) {
+    display: ${(props) => (props.$expanded ? "block" : "none")};
+  }
 `;
 
 export const User = styled.div<{ $isActive: boolean }>`
