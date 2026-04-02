@@ -3,12 +3,17 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const Table = styled.table`
   width: 100%;
+  min-width: 640px;
   border: 1px solid ${(props) => props.theme.COLORS.tableHeaderBorderColor};
   border-radius: 8px;
+  border-collapse: collapse;
 `;
 
 export const TableHeader = styled.thead`
@@ -44,10 +49,19 @@ export const TableRow = styled.tr`
 export const TableCell = styled.td`
   padding: 10px 20px;
   color: ${(props) => props.theme.COLORS.textColor500};
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: nowrap;
 
   &:not(:first-child) {
     border-right: 1px solid
       ${(props) => props.theme.COLORS.tableHeaderBorderColor};
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 10px;
+    font-size: ${(props) => props.theme.FONT_SIZES.sm};
+    white-space: normal;
   }
 `;
 

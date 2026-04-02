@@ -18,8 +18,17 @@ export const Loading = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
   padding: 40px 50px;
   border-bottom: 1px solid ${(props) => props.theme.COLORS.borderColor};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px;
+  }
 `;
 
 export const HeaderInfo = styled.div`
@@ -43,11 +52,20 @@ export const HeaderSubTitle = styled.span`
 export const HeaderSearch = styled.div`
   display: flex;
   gap: 15px;
-  min-width: 25%;
+  min-width: 320px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    min-width: 0;
+    width: 100%;
+    flex-direction: row;
+    gap: 10px;
+  }
 `;
 
 export const HeaderSearchInput = styled.div`
   flex: 1;
+  width: 100%;
 `;
 
 export const HeaderSearchICon = styled(MdSearch)`
@@ -59,8 +77,12 @@ export const Body = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-
   overflow-y: auto;
+  overflow-x: hidden;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 export const Empty = styled.div`
