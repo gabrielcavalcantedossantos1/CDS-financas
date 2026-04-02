@@ -1,20 +1,33 @@
 # CDS Finanças
 
-App de gestão financeira com React, TypeScript e Vite.
+Projeto de gestão financeira pessoal com foco em usabilidade, performance e responsividade.
 
-## Sobre o projeto
+## Visão geral
 
-Este projeto permite aos usuários:
+O aplicativo permite um usuário autenticado visualizar um dashboard financeiro, controlar transações e atualizar dados da conta.
 
-- Autenticar e proteger rotas com middleware
-- Visualizar dashboard com saldo, transações pendentes e concluídas
-- Filtrar por mês e ano
-- Criar, editar e excluir transações
-- Editar informações da conta e excluir cadastro
-- Alternar tema claro/escuro
-- Usar em dispositivos móveis (sidebar colapsável, tabela responsiva, cards mobile)
+Funcionalidades principais:
 
-## Tecnologias
+- Dashboard com métricas: saldo atual, pendentes e concluídos
+- Filtro por mês e ano
+- Cadastro/edição/exclusão de transações
+- Pesquisa de transações (input de busca)
+- Paginação de transações
+- Página de gerenciamento de conta (editar nome/email, excluir conta)
+- Autenticação e proteção de rotas via middleware
+- Tema claro/escuro
+- Responsividade até 320px (Redmi, celulares compactos)
+
+## Estrutura do projeto
+
+- `src/components`: componentes reutilizáveis (botões, alertas, inputs, layout)
+- `src/pages`: páginas do aplicativo (Home, Transações, Contas, Auth)
+- `src/redux`: store e slices de estado
+- `src/services`: requisições HTTP (API)
+- `src/themes`: temas claro e escuro
+- `src/utils`: funções auxiliares (formatar valor/data, mensagem de erro)
+
+## Tecnologias usadas
 
 - React 19
 - TypeScript
@@ -23,93 +36,40 @@ Este projeto permite aos usuários:
 - Styled Components
 - React Router Dom
 - Axios
-- React Icons
-- React Spinners
+- react-icons
+- react-spinners
 
-## Executar
+## Mobile (Redmi) e responsividade
+
+A interface inclui suporte completo para telas pequenas:
+
+- `max-width: 420px` e `max-width: 768px` para layouts ajustados
+- sidebar móvel reduzida a ícone e expande ao tocar
+- cartões do dashboard com padding reduzido e layout em coluna
+- tabela de transações com `overflow-x: auto` e cells adaptativos
+- input de pesquisa maiores e estilo touch-friendly
+- botões full-width na página de conta
+
+## Como executar localmente
 
 1. `npm install`
-2. `npm run dev`
-3. `npm run build`
-4. `npm run preview`
+2. `npm run dev` (inicia servidor dev no `localhost:5173`)
+3. `npm run build` (build de produção)
+4. `npm run preview` (pré-visualiza o build)
 
-## Observações de responsividade
+## Considerações
 
-- Sidebar: fechada em mobile e abre ao clicar
-- Home: cards de saldo adaptados para telas pequenas
-- Transações: tabela com overflow controlado e input de pesquisa ajustado
-- Conta: layout responsivo e botão salvar full-width no mobile
+- Use o backend configurado no `.env` / `axios` se aplicável.
+- O projeto já está ajustado para usar `styled-components` e temas dinâmicos.
+- Verifique rotas e tokens no `AuthMiddleware`.
+
+## Histórico de mudanças recentes (dois commits principais)
+
+- `fix: sidebar mobile behavior and responsive layout`
+- `fix: responsive home cards and transactions table search layout`
+- `fix: responsive account page layout`
+- `docs: update README with project overview and features`
 
 ---
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Este README foi revisado e substituído integralmente para melhor refletir as funcionalidades atuais do projeto.
