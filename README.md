@@ -1,4 +1,46 @@
-# React + TypeScript + Vite
+# CDS Finanças
+
+App de gestão financeira com React, TypeScript e Vite.
+
+## Sobre o projeto
+
+Este projeto permite aos usuários:
+
+- Autenticar e proteger rotas com middleware
+- Visualizar dashboard com saldo, transações pendentes e concluídas
+- Filtrar por mês e ano
+- Criar, editar e excluir transações
+- Editar informações da conta e excluir cadastro
+- Alternar tema claro/escuro
+- Usar em dispositivos móveis (sidebar colapsável, tabela responsiva, cards mobile)
+
+## Tecnologias
+
+- React 19
+- TypeScript
+- Vite
+- Redux Toolkit
+- Styled Components
+- React Router Dom
+- Axios
+- React Icons
+- React Spinners
+
+## Executar
+
+1. `npm install`
+2. `npm run dev`
+3. `npm run build`
+4. `npm run preview`
+
+## Observações de responsividade
+
+- Sidebar: fechada em mobile e abre ao clicar
+- Home: cards de saldo adaptados para telas pequenas
+- Transações: tabela com overflow controlado e input de pesquisa ajustado
+- Conta: layout responsivo e botão salvar full-width no mobile
+
+---
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
