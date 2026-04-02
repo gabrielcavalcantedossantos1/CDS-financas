@@ -16,8 +16,16 @@ export const Loading = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   padding: 40px 50px;
   border-bottom: 1px solid ${(props) => props.theme.COLORS.borderColor};
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 20px 16px;
+  }
 `;
 
 export const HeaderInfo = styled.div`
@@ -45,8 +53,20 @@ export const Body = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 30px 50px;
+
+  @media (max-width: 768px) {
+    padding: 20px 16px;
+    gap: 16px;
+  }
 `;
 
 export const Footer = styled.div`
   padding: 5px 50px;
+
+  @media (max-width: 768px) {
+    padding: 10px 16px;
+    button {
+      width: 100%;
+    }
+  }
 `;
